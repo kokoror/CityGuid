@@ -1,0 +1,184 @@
+<% layout('layouts/boilerplate') %>
+
+<!-- add star stylesheet -->
+<link rel="stylesheet" href="/stylesheets/stars.css">
+
+<!-- before adding bootstrap template -->
+
+<!-- <h1><%= campground.title %> </h1>
+<h2><%= campground.location %> </h2>
+<img src="<%= campground.image %> " alt="">
+<p><%= campground.description %> </p>
+
+<a href="/campgrounds">All Campgounds</a>
+<footer>
+    <a href="/campgrounds/<%= campground._id %>/edit ">Edit</a>
+    <form action="/campgrounds/<%= campground._id %>?_method=DELETE" method="POST">
+        <button>Delete</button>
+    </form>
+</footer> -->
+
+
+<!-- after adding bootstrap template -->
+<div class="row">
+    <div class="col-6">
+
+
+        <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
+            <div class="carousel-inner">
+              <% if (!campground.images.length) { %> 
+                <div class="carousel-item active">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1200px-No_image_available.svg.png" class="d-block w-100" alt="">
+                </div>
+              <% } else { %> 
+                <% campground.images.forEach((img, i) => { %> 
+                    <div class="carousel-item <%= i === 0 ? 'active' : '' %>">
+                        <img src="<%= img.url %> " class="d-block w-100" alt="">
+                    </div>
+                <% }) %>
+              <% } %> 
+            </div>
+
+            <!-- show left right arrow if there are more than one imgs -->
+            <% if (campground.images.length > 1) { %> 
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            <% } %> 
+        </div>
+
+
+
+        <div class="card mb-3">
+            <!-- <% for (let img of campground.images) { %> 
+                <img src="<%= img.url %> " class="card-img-top" alt="...">
+            <% } %>  -->
+            
+            <div class="card-body">
+                <h5 class="card-title"><%= campground.title %> </h5>
+                <small class="card-title text-muted"><%= campground.location %> </small>
+                <small class="card-title">    Submitted by <%= campground.author.username %> </small>
+                <p class="card-text"><%= campground.description %> </p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">$<%= campground.price %>/night </li>
+                <li class="list-group-item">Tags...</li>
+            </ul>
+
+            <!-- only the owner of the campground can see edit and delete button -->
+            <% if (currentUser && campground.author.equals(currentUser._id)) {%> 
+            <div class="card-body">
+                <a href="/campgrounds/<%= campground._id %>/edit " class="card-link btn btn-primary">Edit</a>
+                <form class="d-inline" action="/campgrounds/<%= campground._id %>?_method=DELETE" method="POST">
+                    <button class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+            <% } %> 
+
+            <div class="card-footer text-muted">2 days ago</div>
+        </div>
+    </div>
+
+    <div class="col-6">
+        <!-- MAP --><!-- MAP --><!-- MAP --><!-- MAP -->
+        <div id='map' style='height: 400px;'></div>
+        <!-- MAP --><!-- MAP --><!-- MAP --><!-- MAP -->
+        
+        <!-- if user is not logged in they can not see the review form -->
+        <% if(currentUser) { %> 
+        <h2>Leave a Review</h2>
+        <form action="/campgrounds/<%= campground._id %>/reviews" method="POST" class="mb-3 needs-validation" novalidate>
+            <!-- old rating -->
+            <!-- <div class="mb-3">
+                <label class="form-label" for="rating">Rating</label>
+                <input class="form-range" type="range" min='1' max='5' name="review[rating]" id="rating">
+            </div> -->
+
+            <!-- new rating with stars -->
+          
+            <fieldset class="starability-growRotate">
+                <!-- <legend>Leave a Review: </legend> -->
+                <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="0" checked aria-label="No rating." />
+                <input type="radio" id="first-rate1" name="review[rating]" value="1" />
+                <label for="first-rate1" title="Terrible">1 star</label>
+                <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+                <label for="first-rate2" title="Not good">2 stars</label>
+                <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+                <label for="first-rate3" title="Average">3 stars</label>
+                <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+                <label for="first-rate4" title="Very good">4 stars</label>
+                <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+                <label for="first-rate5" title="Amazing">5 stars</label>
+              </fieldset>
+         
+
+            <div class="mb-3">
+                <label class="form-label" for="body">Review Text</label>
+                <textarea class="form-control" name="review[body]" id="body" cols="30" rows="3" required></textarea>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+            <button class="btn btn-success">Submit</button>
+        </form>
+        <% } %> 
+
+        <% for (let review of campground.reviews) {%> 
+            <div class="mb-3">
+                <div class="card-body">
+                    <!-- <h5 class="card-title">Rating: <%= review.rating %></h5> -->
+                    <!-- star -->
+                    <p class="starability-result" data-rating="<%= review.rating %>">
+                      Rated: <%= review.rating %> stars
+                    </p>
+
+                    <h6 class="card-subtitle mb-2 text-muted">By <%= review.author.username %> </h6>
+                    <p class="card-text">Reviews: <%= review.body %> </p>
+
+                    <!-- delete form, note the review._id comes from this loop 
+                    only the owner of the review can see delete button-->
+                    <% if (currentUser && review.author.equals(currentUser._id)) {%> 
+                    <form action="/campgrounds/<%= campground._id %>/reviews/<%= review._id %>?_method=DELETE" method="POST">
+                        <button class="btn btn-sm btn-danger"> X </button>
+                    </form>
+                    <% } %> 
+                    <hr>
+
+                </div>
+            </div>
+        <% } %> 
+    </div>
+
+</div>
+
+<script>
+    mapboxgl.accessToken = '<%-process.env.MAPBOX_TOKEN%>';
+    //set map
+    var map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/outdoors-v11', // you can change map's style 
+        center: [<%-campground.geometry.coordinates%>],
+        zoom: 9
+    });
+
+    //add map control
+    map.addControl(new mapboxgl.NavigationControl());
+    
+    //add marker on map
+    new mapboxgl.Marker()
+        .setLngLat([<%-campground.geometry.coordinates%>])
+        .setPopup(
+            new mapboxgl.Popup({ offset: 25 }).setText(
+            '<%-campground.title%>'
+            // "hello"
+            )
+        )
+        .addTo(map);
+
+    
+</script>

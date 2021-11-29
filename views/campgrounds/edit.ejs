@@ -1,0 +1,77 @@
+<% layout('layouts/boilerplate') %> 
+
+
+<div class="row">
+    <h1 class="text-center">Edit Campground</h1>
+    <div class="col-6 offset-3">
+
+        <!-- client-side validation: add required to each of the filed you want to apply , and add novalidate at the form  -->
+        <!-- copy the js script from Bootstrap down the botton of this page, and add a class="needs-validation" on at the form -->
+        <!-- check Bootstrap website validation part under form section  -->
+
+        <form action="/campgrounds/<%= campground._id %>?_method=PUT" method="POST" novalidate class="needs-validation" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input type="text" id="title" name="campground[title]" class="form-control" value="<%= campground.title %>" required>
+                <!--"campground[title]" - everything in the requst body will be saved under campground -->
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="location" class="form-label">Location</label>
+                <input type="text" id="location" name="campground[location]" class="form-control" value="<%= campground.location %> " required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+            <!-- upload more imgs -->
+            <div class="mb-3">
+                <label for="formFileLg" class="form-label">Add Images</label>
+                <input class="form-control form-control-lg" name='image' id="formFileLg" type="file" multiple>
+            </div>
+
+            <div class="mb-3">
+                <label for="price" class="form-label">Price</label>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">$</span>
+                    <input type="text" id="price" name="campground[price]" class="form-control" value="<%= campground.price %> " aria-label="Price"
+                        aria-describedby="basic-addon1" required>
+                </div>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">description</label>
+                <textarea type="text" id="description" name="campground[description]" class="form-control" required><%= campground.description %> </textarea>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+
+           
+            <!-- display all images in thubnail, selete and delete -->
+            <!-- note image upload and img delete are independent from each other -->
+            <div class="mb-3">
+                <% campground.images.forEach((img, i) => { %>
+                    
+                        <img src="<%=img.thumbnail %>" class="img-thumbnail" alt="">
+                    
+                    <!-- note we name it deleteImages so we need to add this deleteImages (but not required) 
+                        to campground schema in order for the data to pass through the validation  
+                        parallel to campground. and it's an array -->
+                    <div class="form-check-inline">
+                        <input type="checkbox" id="img-<%=i%>" name="deleteImages[]" value="<%=img.filename%>">
+                        <label for="img-<%=i%>">Delete?</label>
+                    </div>
+                    
+                <% }) %> 
+            </div>
+
+            <button class="btn btn-success">Update Campground</button>
+        </form>
+        <a href="/campgrounds/<%= campground._id%>"> Go Back </a>
+        
+    </div>
+</div>
