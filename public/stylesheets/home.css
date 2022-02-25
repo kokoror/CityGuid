@@ -1,7 +1,6 @@
 body {
-    background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
-    url("https://coolbackgrounds.io/images/backgrounds/index/compute-ea4c57a4.png");
-    /* url("https://i.ytimg.com/vi/4l6J5jhRgos/maxresdefault.jpg"); */
+    background-image: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.8)), 
+    url("img.jpg");
     background-size: cover;
     
 }
@@ -9,4 +8,3 @@ body {
 h1 {
     padding-top: 30%;
 }
-

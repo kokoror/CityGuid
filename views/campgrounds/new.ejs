@@ -1,7 +1,7 @@
 <% layout('layouts/boilerplate') %>
 
 <div class="row">
-    <h1 class="text-center">New Campground</h1>
+    <h1 class="text-center">New Attraction</h1>
     <div class="col-6 offset-3">
 
         <!-- client-side validation: add required to each of the filed you want to apply , and add novalidate at the form  -->
@@ -42,7 +42,7 @@
                 </div>
             </div> -->
             <div class="mb-3">
-                <label for="price" class="form-label">Price</label>
+                <label for="price" class="form-label">Ticket Price</label>
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="basic-addon1">$</span>
                     <input type="text" id="price" name="campground[price]" class="form-control" placeholder="0.0" aria-label="Price"
@@ -60,9 +60,9 @@
                 </div>
             </div>
 
-            <button class="btn btn-primary">Add Campground</button>
+            <button class="btn btn-primary">Add Attraction</button>
         </form>
-        <a href="/campgrounds">All Campgrounds</a>
+        <a href="/campgrounds">Go Back </a>
 
     </div>
 </div>

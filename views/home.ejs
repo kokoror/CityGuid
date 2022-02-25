@@ -15,18 +15,20 @@
 
 <body class="container vh-100 text-center text-white bg-dark">
     
-    <h1>WELCOME!</h1>
-    <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt 
-        ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris 
-        nisi ut aliquip ex ea commodo consequat.
+    <h1>WELCOME TO CITY GUIDE!</h1>
+    <p class="lead"> The World is a book, and those who do not travel read only a page. – Saint Augustine </P>
+    <p class="lead">
+        We must go beyond textbooks, go out into the bypaths and untrodden depths of the wilderness and travel and explore and tell the world the glories of our journey. – John Hope Franklin
     </p>
+    
+
     <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
+        <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton1"
             data-bs-toggle="dropdown" aria-expanded="false">
             Explore...
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-            <li><a class="dropdown-item" href="/campgrounds">All Campgrounds</a></li>
+            <li><a class="dropdown-item" href="/campgrounds">Explore Attractions</a></li>
             <% if (!currentUser) {%>
             <li><a class="dropdown-item" href="/register">Register</a></li>
             <li><a class="dropdown-item" href="login">Login</a></li>

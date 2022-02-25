@@ -61,7 +61,7 @@ module.exports.createCampground = async (req, res, next) => {
         await newCampground.save();
         // console.log(newCampground);
         //add flash
-        req.flash('success', 'Successfully made a new campground.')
+        req.flash('success', 'Successfully added a new attraction.')
         res.redirect(`/campgrounds/${newCampground._id}`)
     } catch (e) {
         next(e)
@@ -83,7 +83,7 @@ module.exports.showCampground = async (req, res, next) => {
         console.log(campground)
         // if cant find the campground (eg, just deleted), flash a error msg
         if(!campground) {
-            req.flash('error', 'Cannot find that campground');
+            req.flash('error', 'Cannot find that attraction');
             // this is going through the middleware before going to the page /campgrounds
             res.redirect('/campgrounds')
         }
@@ -101,7 +101,7 @@ module.exports.renderEditForm = async (req, res, next) => {
 
         // if cant find the campground (eg, just deleted), flash a error msg
         if(!campground) {
-            req.flash('error', 'Cannot find that campground');
+            req.flash('error', 'Cannot find that attraction');
             return res.redirect('/campgrounds')
         }
         res.render('campgrounds/edit', {campground}) 
@@ -129,7 +129,7 @@ module.exports.updateCampground = async (req, res, next) => {
         }
         // console.log(campground);
         ////
-        req.flash('success', 'Successfully updated the campground');
+        req.flash('success', 'Successfully updated the attraction');
         res.redirect(`/campgrounds/${id}`)
     } catch (e) {
         next(e)
@@ -141,7 +141,7 @@ module.exports.deleteCampground = async (req, res, next) => {
     try{
         const {id} = req.params;
         await Campground.findByIdAndDelete(id);
-        req.flash('success', 'Successfully deleted the campground.')
+        req.flash('success', 'Successfully deleted the attraction.')
         res.redirect('/campgrounds')
     } catch (e) {
         next(e)
